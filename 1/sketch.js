@@ -11,17 +11,16 @@ The Coding Train WebGL
 
 let easyCam;
 
-let numAlongAxis;
+let numAlongAxis = 20;
 let boxSize = 10;
 let spaceBetweenBox = 10;
-
-
+let t = 0;
 
 let state = {
   distance: 600,
   rotation: Dw.Rotation.create({
     angles_xyz: [0, 0, 0]
-  }),
+  })
 };
 
 function windowResized() {
@@ -30,11 +29,9 @@ function windowResized() {
 }
 
 function setup() {
-  createCanvas(600, 600, WEBGL);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   easycam = new Dw.EasyCam(this._renderer, state);
   easycam.setDefaultInterpolationTime(2000); //slower transition
-
-  numAlongAxis = 2;
 }
 
 
@@ -50,16 +47,16 @@ function draw() {
 
 
   background(255);
-  noStroke();
-  translate(-spaceBetweenBox, -spaceBetweenBox);
 
-  let fillFactor = 255 / numAlongAxis;
-  let damping = 0.95;
+  noStroke();
+  let fillFactor = 100 / numAlongAxis;
 
   for (let z = 0; z < numAlongAxis; z++) {
     for (let x = 0; x < numAlongAxis; x++) {
       for (let y = 0; y < numAlongAxis; y++) {
-        fill(x * fillFactor, y * fillFactor, 255, z * fillFactor);
+        // fill(100 + x * fillFactor, 100 + y * fillFactor, 255, 255);
+        let noiseFactor = noise(x, y, z);
+        fill(122.5*sin(x*y)+122.5*sin(y*z));
 
         let releaseRate = 3;
         let releaseX = Math.pow(x - z, releaseRate);
@@ -67,20 +64,20 @@ function draw() {
 
 
         push();
-        translate(x * spaceBetweenBox + (releaseX + releaseY / 3),
-          y * spaceBetweenBox + (releaseY + releaseX / 3),
+        translate(x * spaceBetweenBox + (releaseX + releaseY / 3) * noise(x, y, t),
+          y * spaceBetweenBox + (releaseY + releaseX / 3) * noise(x, y, t),
           z * spaceBetweenBox);
 
-          box(boxSize);
+        box(boxSize);
         pop();
       }
     }
   }
-
+  t += 0.001;
 }
-
-function mouseReleased() {
-  if (numAlongAxis < 20) {
-    numAlongAxis++;
-  }
-}
+//
+// function mouseReleased() {
+//   if (numAlongAxis < 20) {
+//     numAlongAxis++;
+//   }
+// }
