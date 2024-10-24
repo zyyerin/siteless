@@ -9,6 +9,10 @@ body {
     font-family: sans-serif;
 }
 
+.page {
+    margin: auto;
+}
+
 footer {
     width: 100%;
     text-align: center;
