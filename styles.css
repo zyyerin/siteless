@@ -31,8 +31,12 @@ footer {
     text-align: center;
 }
 
-img {
+.page > * {
     /* border: 1px dashed black; */
     width: 100%;
     place-self: center;
 }
+
+/* video:hover {
+    opacity: 0;
+} */
